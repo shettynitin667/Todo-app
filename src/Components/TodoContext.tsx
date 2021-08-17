@@ -1,18 +1,16 @@
-import React,{createContext,useState} from 'react'
+import { createContext, useState } from "react";
 
+interface Todo {
+  title: string;
+  id: number;
+}
 export const TodoContext = createContext<any>({});
 
- interface TodoFormat{
-    title:string,
-    id:number
-}
-export const TodoProvider:React.FC=(props)=>{
-    
-    const [todos, setTodos] = useState<TodoFormat[]>([]);
-    
-    return(
-        <TodoContext.Provider value={{todos, setTodos}}>
-            {props.children}
-        </TodoContext.Provider>
-    );
+export function TodoProvider(props: any) {
+  const [todos, setTodos] = useState<Todo[]>([]);
+  return (
+    <TodoContext.Provider value={{ todos, setTodos }}>
+      {props.children}
+    </TodoContext.Provider>
+  );
 }
