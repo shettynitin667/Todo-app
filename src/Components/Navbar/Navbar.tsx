@@ -1,18 +1,18 @@
-import React,{useContext} from 'react'
+import React from "react";
 import "./navbar.styles.css";
-import {TodoContext} from '../TodoContext'
 
 interface Navbar {
-    title: string,
+  title: string;
 }
 
+const Navbar: React.FC<Navbar> = (props: any) => {
+  return <div className="navbar">{props.title}</div>;
+};
 
-const Navbar:React.FC<Navbar>=(props)=>{
-    const {todos} = useContext(TodoContext);
-    return(
-    <div className="navbar">{props.title}  ({`${todos.length} todos left`})</div>
-    
-    );
-}
+// const mapStateToProps = (state: any) => {
+//   return {
+//     todos: state.todos.length,
+//   };
+// };
 
-export default Navbar
+export default Navbar;

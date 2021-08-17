@@ -1,16 +1,15 @@
 import React, { useState, useContext } from "react";
 import {
   Container,
-  Grid,
   TextField,
   Button,
   makeStyles,
   Box,
-  Typography,
 } from "@material-ui/core";
 import "./todo.styles.css";
 import TodoElement from "./todoElement";
-import { TodoContext } from "../TodoContext";
+import { addTodo, deleteTodo, getTodos } from "../actions";
+import { connect } from "react-redux";
 
 const useStyles = makeStyles({
   input: {
@@ -23,37 +22,29 @@ interface TodoFormat {
   id: number;
 }
 
-const Todo: React.FC = () => {
-  const { todos, setTodos } = useContext(TodoContext);
+const Todo: React.FC = (props: any) => {
   const classes = useStyles();
 
   const [inputTodo, setInputTodo] = useState<string | null>("");
 
   function onTodoAdd(e: any) {
     e.preventDefault();
+
+    //Only add if input field id not empty
     if (inputTodo) {
-      setTodos((prevTodos: Object[]) => {
-        return [...prevTodos, { title: inputTodo, id: prevTodos.length }];
-      });
-      console.log(todos);
+      props.addTodo(inputTodo);
       setInputTodo("");
     }
   }
 
+  //Set local state while input changes
   function onInputChange(e: any) {
     const todo = e.target.value;
     setInputTodo(todo);
   }
 
   function onDelete(id: number) {
-    //Removing the todo by checking the id
-    let newList = todos.filter((todo: TodoFormat) => todo.id != id);
-
-    //Resetting the indexes from 0 to last
-    newList = newList.map((todo: TodoFormat, index: number) => {
-      return { ...todo, id: index };
-    });
-    setTodos(newList);
+    props.deleteTodo(id);
   }
 
   return (
@@ -76,14 +67,23 @@ const Todo: React.FC = () => {
       </form>
 
       <Box className="todoList" flexDirection="column" width="100%">
-        {todos.length > 0 &&
-          todos.map((todo: TodoFormat) => (
+        {props.todos.length > 0 &&
+          props.todos.map((todo: TodoFormat) => (
             <TodoElement key={todo.id} onDelete={onDelete} todo={todo} />
           ))}
-        {todos.length == 0 ? "No Todos found" : null}
+        {props.todos.length == 0 ? "No Todos found" : null}
       </Box>
     </Container>
   );
 };
 
-export default Todo;
+//Props for the Component
+const mapStateToProps = (state: any) => {
+  return {
+    todos: state.todos,
+  };
+};
+
+export default connect(mapStateToProps, { addTodo, deleteTodo, getTodos })(
+  Todo
+);

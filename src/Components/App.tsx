@@ -1,19 +1,13 @@
-import React,{useContext} from 'react';
-import logo from './logo.svg';
-import './App.css';
-import Navbar from './Navbar/Navbar';
-import Todo from './TodoContainer/todo';
-import {TodoProvider} from "./TodoContext"
+import "./App.css";
+import Navbar from "./Navbar/Navbar";
+import Todo from "./TodoContainer/todo";
 
 function App() {
   return (
-    <TodoProvider>
-        <div className="App">
-          <Navbar title="Todo App"/>
-          <Todo/>
-        </div>
-    </TodoProvider>
-    
+    <div className="App">
+      <Navbar title="Todo App" />
+      <Todo />
+    </div>
   );
 }
 
