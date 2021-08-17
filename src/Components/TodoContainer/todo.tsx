@@ -22,7 +22,7 @@ interface TodoFormat {
   id: number;
 }
 
-const Todo: React.FC = (props: any) => {
+export const Todo = (props: any) => {
   const classes = useStyles();
 
   const [inputTodo, setInputTodo] = useState<string | null>("");
